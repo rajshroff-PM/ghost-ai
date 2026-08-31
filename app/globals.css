@@ -5,172 +5,175 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: var(--font-sans);
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
+  --font-heading: var(--font-geist-sans);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 
-    --color-base: var(--bg-base);
-    --color-surface: var(--bg-surface);
-    --color-elevated: var(--bg-elevated);
-    --color-sunken: var(--bg-sunken);
+  --color-base: var(--bg-base);
+  --color-surface: var(--bg-surface);
+  --color-elevated: var(--bg-elevated);
+  --color-sunken: var(--bg-sunken);
 
-    --color-copy-primary: var(--text-primary);
-    --color-copy-muted: var(--text-muted);
-    --color-copy-subtle: var(--text-subtle);
-    --color-copy-invert: var(--text-invert);
+  --color-copy-primary: var(--text-primary);
+  --color-copy-muted: var(--text-muted);
+  --color-copy-subtle: var(--text-subtle);
+  --color-copy-invert: var(--text-invert);
 
-    --color-brand: var(--accent-primary);
-    --color-brand-strong: var(--accent-primary-strong);
-    --color-brand-soft: var(--accent-primary-soft);
-    --color-agent: var(--accent-agent);
-    --color-agent-soft: var(--accent-agent-soft);
+  --color-brand: var(--accent-primary);
+  --color-brand-strong: var(--accent-primary-strong);
+  --color-brand-soft: var(--accent-primary-soft);
+  --color-agent: var(--accent-agent);
+  --color-agent-soft: var(--accent-agent-soft);
 
-    --color-surface-border: var(--border-default);
-    --color-surface-strong: var(--border-strong);
-    --color-focus: var(--accent-primary);
+  --color-surface-border: var(--border-default);
+  --color-surface-strong: var(--border-strong);
+  --color-focus: var(--accent-primary);
 
-    --color-state-error: var(--state-error);
-    --color-state-success: var(--state-success);
-    --color-state-warning: var(--state-warning);
-    --color-state-info: var(--state-info);
+  --color-state-error: var(--state-error);
+  --color-state-success: var(--state-success);
+  --color-state-warning: var(--state-warning);
+  --color-state-info: var(--state-info);
 }
 
 :root {
-    /* shadcn/ui semantic tokens, wired to the Ghost AI dark theme below */
-    --background: var(--bg-base);
-    --foreground: var(--text-primary);
-    --card: var(--bg-surface);
-    --card-foreground: var(--text-primary);
-    --popover: var(--bg-elevated);
-    --popover-foreground: var(--text-primary);
-    --primary: var(--accent-primary);
-    --primary-foreground: var(--text-invert);
-    --secondary: var(--bg-elevated);
-    --secondary-foreground: var(--text-primary);
-    --muted: var(--bg-sunken);
-    --muted-foreground: var(--text-muted);
-    --accent: var(--bg-elevated);
-    --accent-foreground: var(--text-primary);
-    --destructive: var(--state-error);
-    --border: var(--border-default);
-    --input: var(--border-default);
-    --ring: var(--accent-primary);
-    --chart-1: var(--accent-primary);
-    --chart-2: var(--accent-agent);
-    --chart-3: var(--state-success);
-    --chart-4: var(--state-warning);
-    --chart-5: var(--state-info);
-    --radius: 0.625rem;
-    --sidebar: var(--bg-surface);
-    --sidebar-foreground: var(--text-primary);
-    --sidebar-primary: var(--accent-primary);
-    --sidebar-primary-foreground: var(--text-invert);
-    --sidebar-accent: var(--bg-elevated);
-    --sidebar-accent-foreground: var(--text-primary);
-    --sidebar-border: var(--border-default);
-    --sidebar-ring: var(--accent-primary);
+  /* shadcn/ui semantic tokens, wired to the Ghost AI dark theme below */
+  --background: var(--bg-base);
+  --foreground: var(--text-primary);
+  --card: var(--bg-surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-elevated);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--accent-primary);
+  --primary-foreground: var(--text-invert);
+  --secondary: var(--bg-elevated);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-sunken);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--bg-elevated);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--state-error);
+  --border: var(--border-default);
+  --input: var(--border-default);
+  --ring: var(--accent-primary);
+  --chart-1: var(--accent-primary);
+  --chart-2: var(--accent-agent);
+  --chart-3: var(--state-success);
+  --chart-4: var(--state-warning);
+  --chart-5: var(--state-info);
+  --radius: 0.625rem;
+  --sidebar: var(--bg-surface);
+  --sidebar-foreground: var(--text-primary);
+  --sidebar-primary: var(--accent-primary);
+  --sidebar-primary-foreground: var(--text-invert);
+  --sidebar-accent: var(--bg-elevated);
+  --sidebar-accent-foreground: var(--text-primary);
+  --sidebar-border: var(--border-default);
+  --sidebar-ring: var(--accent-primary);
 
-    /* Ghost AI design tokens — see context/ui-context.md */
-    --bg-base: #07080a;
-    --bg-surface: #0e1014;
-    --bg-elevated: #16191f;
-    --bg-sunken: #0a0c10;
+  /* Ghost AI design tokens — see context/ui-context.md */
+  --bg-base: #07080a;
+  --bg-surface: #0e1014;
+  --bg-elevated: #16191f;
+  --bg-sunken: #0a0c10;
 
-    --text-primary: #e8ecf2;
-    --text-muted: #8a93a3;
-    --text-subtle: #5a6273;
-    --text-invert: #04070a;
+  --text-primary: #e8ecf2;
+  --text-muted: #8a93a3;
+  --text-subtle: #5a6273;
+  --text-invert: #04070a;
 
-    --accent-primary: #22d3ee;
-    --accent-primary-strong: #67e8f9;
-    --accent-primary-soft: #22d3ee1a;
-    --accent-agent: #a78bfa;
-    --accent-agent-soft: #a78bfa1a;
+  --accent-primary: #22d3ee;
+  --accent-primary-strong: #67e8f9;
+  --accent-primary-soft: #22d3ee1a;
+  --accent-agent: #a78bfa;
+  --accent-agent-soft: #a78bfa1a;
 
-    --border-default: #1e222b;
-    --border-strong: #2c3240;
+  --border-default: #1e222b;
+  --border-strong: #2c3240;
 
-    --state-error: #f87171;
-    --state-error-soft: #f871711a;
-    --state-success: #4ade80;
-    --state-success-soft: #4ade801a;
-    --state-warning: #fbbf24;
-    --state-warning-soft: #fbbf241a;
-    --state-info: #60a5fa;
-    --state-info-soft: #60a5fa1a;
+  --state-error: #f87171;
+  --state-error-soft: #f871711a;
+  --state-success: #4ade80;
+  --state-success-soft: #4ade801a;
+  --state-warning: #fbbf24;
+  --state-warning-soft: #fbbf241a;
+  --state-info: #60a5fa;
+  --state-info-soft: #60a5fa1a;
 
-    /* Canvas */
-    --canvas-bg: #05060a;
-    --canvas-grid: #161a22;
-    --node-bg: #0e1014;
-    --node-border: #242a35;
-    --node-selected: #22d3ee;
-    --node-agent: #a78bfa;
-    --edge-stroke: #3a4250;
-    --edge-active: #22d3ee;
+  /* Canvas */
+  --canvas-bg: #05060a;
+  --canvas-grid: #161a22;
+  --node-bg: #0e1014;
+  --node-border: #242a35;
+  --node-selected: #22d3ee;
+  --node-agent: #a78bfa;
+  --edge-stroke: #3a4250;
+  --edge-active: #22d3ee;
 
-    /* Presence */
-    --presence-1: #22d3ee;
-    --presence-2: #a78bfa;
-    --presence-3: #f472b6;
-    --presence-4: #4ade80;
-    --presence-5: #fbbf24;
-    --presence-6: #60a5fa;
-    --presence-7: #fb923c;
-    --presence-8: #2dd4bf;
+  /* Presence */
+  --presence-1: #22d3ee;
+  --presence-2: #a78bfa;
+  --presence-3: #f472b6;
+  --presence-4: #4ade80;
+  --presence-5: #fbbf24;
+  --presence-6: #60a5fa;
+  --presence-7: #fb923c;
+  --presence-8: #2dd4bf;
 
-    /* Effects */
-    --glow-brand: 0 0 0 1px #22d3ee40, 0 0 24px -6px #22d3ee66;
-    --glow-agent: 0 0 0 1px #a78bfa40, 0 0 24px -6px #a78bfa66;
-    --shadow-float: 0 16px 48px -12px #00000099;
-    --gradient-aurora: radial-gradient(60% 50% at 50% 0%, #22d3ee14, transparent);
+  /* Effects */
+  --glow-brand: 0 0 0 1px #22d3ee40, 0 0 24px -6px #22d3ee66;
+  --glow-agent: 0 0 0 1px #a78bfa40, 0 0 24px -6px #a78bfa66;
+  --shadow-float: 0 16px 48px -12px #00000099;
+  --gradient-aurora: radial-gradient(60% 50% at 50% 0%, #22d3ee14, transparent);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
+  }
+
   body {
     @apply bg-background text-foreground;
-    }
+  }
+
   html {
     @apply font-sans;
-    }
+  }
 }
