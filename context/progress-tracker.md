@@ -9,10 +9,39 @@ change.
 
 ## Current Goal
 
-- Pick the next feature unit from `context/feature-specs/`.
+- Pick the next feature unit from `context/feature-specs/`. The project dialogs
+  now need real data behind them: project persistence (Prisma) and the API
+  routes that `useProjectDialogs.submit` will call.
 
 ## Completed
 
+- 04-project-dialogs: editor home + project dialogs, UI only (no API calls, no
+  persistence). `components/editor/editor-home.tsx` renders the centered
+  `Create a project or open an existing one` heading, its description, and a
+  `New Project` button with a `Plus` icon over `--gradient-aurora` — no cards,
+  and it replaced the old `canvas placeholder` div in `app/editor/page.tsx`.
+  Three dialogs compose `EditorDialog`: `create-project-dialog.tsx` (name input
+  plus a live slug preview in a `bg-sunken` well that updates on every
+  keystroke), `rename-project-dialog.tsx` (prefilled + `autoFocus` input, the
+  current name in the dialog description, Enter submits via a real `<form>` the
+  footer button targets with `form=`), and `delete-project-dialog.tsx`
+  (confirmation only, no input, destructive-styled confirm). `lib/slug.ts`
+  exports `toSlug()` (NFKD fold, non-alphanumeric runs collapse to one hyphen,
+  ends trimmed). `lib/projects.ts` holds the `Project` interface and the two
+  mock lists. `hooks/use-project-dialogs.ts` is the dedicated hook owning which
+  dialog is open, the active project, the shared name field, and
+  `isSubmitting`; `submit()` is the seam where the project API call will go.
+  `project-sidebar.tsx` now renders the mock lists (empty states still show when
+  a list is empty), with rename/delete icon actions rendered only when the
+  handlers are passed — the Shared tab passes none, so collaborator projects
+  have no actions — plus a `md:hidden` backdrop scrim that closes the sidebar
+  when tapped. Verified: `npx tsc --noEmit` clean, `npx eslint app components
+  lib hooks` clean, `npm run build` passes, and the whole flow was exercised
+  in-browser — slug preview turned `Realtime Notifications v2!` into
+  `realtime-notifications-v2`, Enter submitted the create form, the rename
+  dialog opened prefilled and focused with the old name in its description, the
+  delete dialog named the project with a red confirm, the Shared tab showed no
+  item actions, and clicking the scrim closed the sidebar. No console errors.
 - 03-auth: Clerk wired into the app end to end. `lib/clerk-appearance.ts` composes
   Clerk's `dark` theme with an overrides object that maps every Clerk `Variables`
   key (colors, fonts, radius) to the app's existing CSS custom properties — no
@@ -98,18 +127,15 @@ change.
 
 ## Next Up
 
-- First concrete dialogs composed on `EditorDialog`, and real project
-  creation/listing to replace the sidebar's empty placeholder states now that
-  `/editor` is reachable only by an authenticated user.
+- Project persistence: the Prisma `Project` / `ProjectCollaborator` models and
+  the API routes behind them, replacing `lib/projects.ts`'s mock lists and
+  filling in `useProjectDialogs.submit`. Opening a project from the sidebar is
+  also still unbuilt — list items are deliberately non-interactive text until a
+  project workspace route exists.
 
 ## Open Questions
 
-- Modal scrim: `ui-context.md` specifies `bg-base/70 backdrop-blur-sm`, but
-  the generated `components/ui/dialog.tsx` renders its overlay internally
-  (`bg-black/10`, `backdrop-blur-xs`) with no way to pass a class through
-  `DialogContent`. `EditorDialog` therefore inherits the primitive's scrim.
-  Resolving this requires either an overlay rule in `globals.css` or editing
-  a protected foundation file — deferred until a real dialog ships.
+- None.
 
 ## Architecture Decisions
 
@@ -163,6 +189,23 @@ change.
   using `components/ui/dialog` directly, so token styling and the
   title/description/footer structure live in one app-level file and the
   shadcn primitive stays untouched.
+- Modal scrim (resolves the earlier open question): `components/ui/dialog.tsx`
+  renders its overlay internally with no class hook, so `app/globals.css` now
+  carries an `@layer components` rule targeting `[data-slot="dialog-overlay"]`
+  that applies the `bg-base/70 backdrop-blur-sm` scrim from `ui-context.md`.
+  Styling by data-slot keeps the protected primitive unedited and applies to
+  every dialog in the app at once.
+- Project dialog state lives in one hook (`hooks/use-project-dialogs.ts`) rather
+  than in each dialog, so only one dialog can be open at a time by construction
+  and the create/rename name field is a single piece of state. The dialogs
+  themselves are controlled and stateless.
+- Sidebar item actions are gated by whether handlers are passed rather than by a
+  role flag on the project: `ProjectList` renders rename/delete only when both
+  callbacks exist, and the Shared tab passes neither. Ownership stays a property
+  of which list a project is in, which is what the API will return anyway.
+- Sidebar list items are non-interactive text, not buttons. Opening a project is
+  not in this unit's spec, and a button that does nothing is worse than plain
+  text for keyboard and screen-reader users.
 
 ## Session Notes
 
