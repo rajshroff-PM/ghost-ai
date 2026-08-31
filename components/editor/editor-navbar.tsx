@@ -12,8 +12,11 @@ interface EditorNavbarProps {
 }
 
 /**
- * Fixed-height top bar shared by every editor screen. Left holds the sidebar
- * toggle, center and right are reserved for chapters that follow.
+ * Renders the editor navigation bar with a sidebar toggle and reserved content areas.
+ *
+ * @param isSidebarOpen - Whether the projects sidebar is currently open
+ * @param onToggleSidebar - Callback invoked when the sidebar toggle is clicked
+ * @returns The editor navigation bar
  */
 export function EditorNavbar({
   isSidebarOpen,
