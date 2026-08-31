@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 interface ProjectSidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  onNewProject?: () => void;
   className?: string;
 }
 
@@ -43,6 +44,7 @@ function SidebarEmptyState({
 export function ProjectSidebar({
   isOpen,
   onClose,
+  onNewProject,
   className,
 }: ProjectSidebarProps) {
   return (
@@ -102,6 +104,7 @@ export function ProjectSidebar({
         <Button
           type="button"
           size="lg"
+          onClick={onNewProject}
           className="w-full rounded-xl bg-brand text-copy-invert hover:bg-brand hover:shadow-[var(--glow-brand)] focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-base"
         >
           <Plus className="h-4 w-4" strokeWidth={1.5} />
