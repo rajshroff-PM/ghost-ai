@@ -24,9 +24,13 @@ interface EditorDialogProps {
 }
 
 /**
- * Shared dialog shell for the editor. Every dialog in the app composes this so
- * title, description, and footer actions stay visually consistent — feature
- * dialogs are built on top of it, not by restyling the shadcn primitive.
+ * Renders a consistently styled dialog for editor content.
+ *
+ * @param title - The dialog title.
+ * @param description - Optional supporting text displayed below the title.
+ * @param footer - Optional footer actions.
+ * @param children - The dialog body content.
+ * @returns The editor dialog layout.
  */
 export function EditorDialog({
   open,

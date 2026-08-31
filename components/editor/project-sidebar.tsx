@@ -21,6 +21,13 @@ interface SidebarEmptyStateProps {
   description: string;
 }
 
+/**
+ * Renders an empty-state message with an icon, heading, and description.
+ *
+ * @param icon - The icon component displayed above the message
+ * @param heading - The primary empty-state message
+ * @param description - Additional context for the empty state
+ */
 function SidebarEmptyState({
   icon: Icon,
   heading,
@@ -38,8 +45,11 @@ function SidebarEmptyState({
 }
 
 /**
- * Projects panel. Floats above the editor canvas as an overlay — opening it
- * slides the panel in from the left without reflowing the page content.
+ * Displays a projects sidebar overlay that slides in from the left without reflowing editor content.
+ *
+ * @param isOpen - Whether the sidebar is visible
+ * @param onClose - Called when the sidebar is closed
+ * @param className - Optional additional CSS classes
  */
 export function ProjectSidebar({
   isOpen,
