@@ -177,3 +177,20 @@
     @apply font-sans;
   }
 }
+@layer components {
+  /*
+   * `components/ui/dialog.tsx` renders its overlay internally and exposes no
+   * class hook, so the modal scrim specified in `context/ui-context.md`
+   * (bg-base/70 + backdrop-blur-sm) is applied here by data-slot rather than by
+   * editing the protected primitive.
+   */
+  [data-slot="dialog-overlay"] {
+    background-color: color-mix(in oklab, var(--bg-base) 70%, transparent);
+  }
+
+  @supports (backdrop-filter: blur(0)) {
+    [data-slot="dialog-overlay"] {
+      backdrop-filter: blur(4px);
+    }
+  }
+}

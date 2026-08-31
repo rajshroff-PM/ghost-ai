@@ -23,6 +23,10 @@
   utilities, and domain logic utilities.
 - **`components`** — UI composition: canvas surfaces, sidebars, dialogs, and
   interactive elements. No business logic, no data fetching.
+- **`hooks`** — Client-side React hooks that own UI state shared across several
+  components (dialog/form/loading state). Hooks hold no business logic and issue
+  no requests; anything that talks to the network belongs in `lib` or a route
+  handler.
 - **`prisma`** — Database schema and generated client output. Schema is the source of
   truth for data structure and relationships.
 - **`data`** — Legacy local directory. Not used for new artifacts; retained for
