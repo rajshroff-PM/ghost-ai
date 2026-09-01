@@ -24,9 +24,12 @@ generator client {
 
 ## 2. Config Configuration
 
+Ensure you have `dotenv` installed as a development dependency (`npm install -D dotenv`).
+
 In `prisma.config.ts`:
 
 ```typescript
+import 'dotenv/config'
 import { defineConfig, env } from 'prisma/config'
 
 export default defineConfig({
@@ -72,13 +75,8 @@ Use a driver adapter for the standard SQL workflow.
    import { PrismaClient } from '../generated/client'
    import { PrismaMariaDb } from '@prisma/adapter-mariadb'
 
-   const adapter = new PrismaMariaDb({
-     host: 'localhost',
-     port: 3306,
+   const adapter = new PrismaMariaDb(process.env.DATABASE_URL!, {
      connectionLimit: 5,
-     user: process.env.MYSQL_USER,
-     password: process.env.MYSQL_PASSWORD,
-     database: process.env.MYSQL_DATABASE,
    })
 
    const prisma = new PrismaClient({ adapter })
@@ -110,7 +108,10 @@ In `prisma/schema.prisma`:
 ```prisma
 datasource db {
   provider     = "mysql"
-  relationMode = "prisma" // Emulate foreign keys in Prisma
+  // Use relationMode = "prisma" ONLY if foreign key emulation is enabled.
+  // In that case, add indexes on every relation scalar field.
+  // For PlanetScale native foreign keys, use relationMode = "foreignKeys" or omit this line.
+  relationMode = "prisma" 
 }
 ```
 

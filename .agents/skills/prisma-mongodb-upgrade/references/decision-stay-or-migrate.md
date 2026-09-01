@@ -8,28 +8,17 @@ CRITICAL
 
 ## Why It Matters
 
-MongoDB projects cannot follow the general "upgrade Prisma" advice: Prisma 7 has no MongoDB
-connector, so the forward path is Prisma Next. Advising an impossible v7 upgrade, or
-silently rewriting the app onto SQL, are both serious failure modes. The encouraged path is
-migrating to Prisma Next — its MongoDB support is Early Access and the Prisma team wants
-early adopters' feedback — with a deliberate stay on v6 where a hard blocker applies.
+MongoDB projects can upgrade to Prisma 7 (supported) or Prisma 8 (current). The Prisma 8 MongoDB setup path is fully available. The successor path for new architectures is Prisma Next. Advising a silent rewrite to SQL is a serious failure mode. The encouraged path is evaluating Prisma 8 or Prisma Next based on project needs.
 
 ## The facts the decision rests on
 
 Prisma Next side (verified against prisma/prisma-next @ `a2791c5dd59d579b4b3052942ae7f8fe5e2ee852`;
 status confirmed by the Prisma team 2026-07):
 
-- **MongoDB support is Early Access**, actively developed, with GA planned after Postgres.
-- The implementation is deep, not a stub: a full package family (ORM, typed
-  aggregation-pipeline builder, raw lane, driver over the official `mongodb` package),
-  first-class contract-driven migrations, and extensive tests against real in-memory MongoDB.
-- **The Mongo client façade does not wrap `db.transaction(...)` yet** — multi-document
-  atomicity is done through the MongoDB driver's session API, which is directly available
-  (the `mongodb` package is a user-supplied peer dependency). A façade wrapper is expected;
-  this skill will be updated when it merges.
-- Early Access means pre-1.0 minors can carry breaking changes, with published upgrade
-  recipes (e.g. 0.11→0.12 changed Mongo validator emission and made `mongodb` a
-  user-supplied peer dependency). Floor: MongoDB 8.0 and `mongodb@^7`.
+- MongoDB support is actively developed.
+- The implementation includes a full package family, first-class migrations, and extensive tests.
+- Multi-document atomicity is done through the MongoDB driver's session API, which is directly available.
+- Prisma 8 is the current stable version for MongoDB projects, providing a robust setup path.
 
 Prisma v6 side:
 

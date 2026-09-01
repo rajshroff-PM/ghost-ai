@@ -6,7 +6,7 @@ Generate and instantiate Prisma Client for Prisma's standard SQL provider workfl
 
 ```bash
 npm install prisma --save-dev
-npm install @prisma/client
+npm install @prisma/client @prisma/adapter-pg pg dotenv
 ```
 
 ## 2. Add generator block

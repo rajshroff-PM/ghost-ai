@@ -49,9 +49,15 @@ const stats = await db.query.from('users').group({ _id: '$role', n: { $count: {}
 // Multi-document atomicity today: the mongodb driver (a direct dependency of the
 // project) exposes sessions and transactions as usual:
 const session = mongoClient.startSession();
-await session.withTransaction(async () => {
-  // ...writes...
-});
+try {
+  await session.withTransaction(async (session) => {
+    // pass { session } to every representative operation
+    await raw.users.insertOne({ name: 'Alice' }, { session });
+    await raw.posts.insertOne({ title: 'Hello', authorId: user._id }, { session });
+  });
+} finally {
+  await session.endSession();
+}
 ```
 
 ## References

@@ -159,17 +159,18 @@ await prisma.user.delete({
 ### Transactions
 
 ```typescript
-const [user, post] = await prisma.$transaction([
-  prisma.user.create({ data: { email: 'alice@prisma.io' } }),
-  prisma.post.create({ data: { title: 'Hello', authorId: 1 } })
-])
+const result = await prisma.$transaction(async (tx) => {
+  const user = await tx.user.create({ data: { email: 'alice@prisma.io' } })
+  const post = await tx.post.create({ data: { title: 'Hello', authorId: user.id } })
+  return { user, post }
+})
 ```
 
 ## Rule Files
 
 Detailed API documentation:
 
-```
+```text
 references/constructor.md        - PrismaClient constructor options
 references/model-queries.md      - CRUD operations
 references/query-options.md      - select, include, omit, where, orderBy

@@ -11,7 +11,7 @@ Prisma Postgres is a serverless, managed PostgreSQL database optimized for Prism
 You can provision a Prisma Postgres instance directly via the CLI:
 
 ```bash
-prisma init --db
+npx prisma@7.10.0 init --db
 ```
 
 This will:
@@ -46,9 +46,12 @@ generator client {
 
 ## 2. Config Configuration
 
+Ensure you have `dotenv` installed as a development dependency (`npm install -D dotenv`).
+
 In `prisma.config.ts`:
 
 ```typescript
+import 'dotenv/config'
 import { defineConfig, env } from 'prisma/config'
 
 export default defineConfig({
@@ -100,7 +103,7 @@ const adapter = new PrismaPg(process.env.DATABASE_URL!, {
 
 ### Edge/serverless option
 
-Use the Prisma Postgres serverless driver only when you need HTTP/WebSocket transport in environments like Workers or Edge Functions:
+Use the Prisma Postgres serverless driver (`@prisma/ppg`) only when you need HTTP/WebSocket transport in environments like Workers or Edge Functions. **Note:** `@prisma/ppg` is Early Access and is not recommended for production use.
 
 ```bash
 npm install @prisma/adapter-ppg @prisma/ppg

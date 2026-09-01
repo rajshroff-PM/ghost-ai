@@ -65,7 +65,7 @@ With PostgreSQL, no explicit `--database-url`, and no `--no-prisma-postgres`, th
 - a `.env` file containing `DATABASE_URL`
 - an initial Compute deployment with env vars loaded from `.env`
 
-`create-prisma` is the new-project path. If the user needs a later preview branch deploy, use the generated `compute:deploy` script or `@prisma/cli app deploy --branch <git-name>` after the app exists. Keep branch names aligned across `app deploy --branch`, `database create --branch`, and `project env ... --branch`.
+`create-prisma` is the new-project path. If the user needs a later preview branch deploy, avoid the production-targeting `compute:deploy` script (which uses `--prod`); instead, use `@prisma/cli app deploy --branch <git-name>` or a separate preview script without `--prod` after the app exists. Keep branch names aligned across `app deploy --branch`, `database create --branch`, and `project env ... --branch`.
 
 For unattended local tests, pass `--no-prisma-postgres` unless you intentionally want provisioning:
 

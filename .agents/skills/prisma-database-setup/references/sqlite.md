@@ -96,7 +96,7 @@ For edge compatibility or Turso:
 
 ## Limitations
 
-- **No Enums**: SQLite doesn't support enums (Prisma polyfills them or treats as String).
+- **No Enums**: Prisma 7.10.0 supports enums by mapping them to TEXT, while SQLite does not enforce the permitted enum values at the database level.
 - **No Scalar Lists**: `String[]` is not supported directly.
 - **Concurrency**: Write operations lock the file.
 

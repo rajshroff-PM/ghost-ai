@@ -148,10 +148,18 @@ export default defineConfig({
 
 ## Production Migration
 
-When ready for production, switch to Prisma Postgres cloud:
+When ready for production, switch to Prisma Postgres cloud by provisioning a database first:
 
 ```bash
 prisma init --db
 ```
 
-Update your `DATABASE_URL` to the cloud connection string.
+Then, update your `DATABASE_URL` to the new cloud connection string as a distinct step, and run deployment and seeding:
+
+```bash
+# Deploy schema to the new production database
+prisma migrate deploy
+
+# Perform any required data migration or seeding
+prisma db seed
+```

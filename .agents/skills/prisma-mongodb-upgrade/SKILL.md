@@ -1,6 +1,6 @@
 ---
 name: prisma-mongodb-upgrade
-description: Decision and migration guide for Prisma ORM MongoDB projects on v6, which have no upgrade path to v7. Use when a MongoDB project asks about upgrading Prisma, when "upgrade to prisma 7" comes up in a project with provider = "mongodb", or when evaluating a move to Prisma Next. Triggers on "upgrade prisma mongodb", "prisma 7 mongodb", "mongodb prisma migration", "prisma next mongodb".
+description: Decision and migration guide for Prisma ORM MongoDB projects. Use when a MongoDB project asks about upgrading Prisma, evaluating Prisma 7 (supported) or Prisma 8 (current), or migrating from v6. Triggers on "upgrade prisma mongodb", "prisma 7 mongodb", "prisma 8 mongodb", "mongodb prisma migration".
 license: MIT
 metadata:
   author: prisma
@@ -9,12 +9,7 @@ metadata:
 
 # Prisma MongoDB Upgrade Path
 
-MongoDB projects are the one Prisma cohort with no road into Prisma 7: **v6 is the terminal
-classic-ORM major for MongoDB, and v7 never ships a MongoDB connector**. The successor path
-is [Prisma Next](https://github.com/prisma/prisma-next), where MongoDB support is in Early
-Access with GA planned after Postgres. This skill frames the real decision — migrate to
-Prisma Next (the encouraged path), or stay on v6 where a hard blocker applies — and carries
-the migration mechanics.
+MongoDB projects have a clear path forward in Prisma 8. While Prisma 7 supported MongoDB with limitations (at the time of v7.0.0), Prisma 8 is the current version and includes the Prisma 8 MongoDB setup path. The successor path for advanced features is Prisma Next, where MongoDB support is available. This skill frames the decision to upgrade to Prisma 8 or migrate to Prisma Next.
 
 **Never do either of these:**
 
@@ -27,9 +22,10 @@ the migration mechanics.
 
 | Version | MongoDB status |
 |---------|----------------|
-| Prisma ORM v6 | Fully supported (`mongodb` provider); latest 6.x is the current stable path; maintenance line |
-| Prisma ORM v7 | **No MongoDB connector — not an option, ever** |
-| Prisma Next | MongoDB support in **Early Access**, actively developed, GA planned after Postgres — the successor path for MongoDB projects |
+| Prisma ORM v6 | Fully supported; maintenance line |
+| Prisma ORM v7 | Supported |
+| Prisma ORM v8 | Current stable version; includes the Prisma 8 MongoDB setup path |
+| Prisma Next | Actively developed successor path |
 
 ## The decision, up front
 

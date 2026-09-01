@@ -24,9 +24,12 @@ generator client {
 
 ## 2. Config Configuration
 
+Ensure you have `dotenv` installed as a development dependency (`npm install -D dotenv`).
+
 In `prisma.config.ts`:
 
 ```typescript
+import 'dotenv/config'
 import { defineConfig, env } from 'prisma/config'
 
 export default defineConfig({

@@ -145,12 +145,15 @@ bunx @prisma/cli@latest auth logout --workspace <workspace-id-or-name>
 
 Use plain `auth logout` only when you want to clear all local OAuth workspace sessions.
 
-For CI, `@prisma/cli` can authenticate with `PRISMA_SERVICE_TOKEN`:
+For CI, `@prisma/cli` can authenticate with `PRISMA_SERVICE_TOKEN`. Verify authentication separately from deployment:
 
 ```bash
+# 1. Authentication check
 test -n "${PRISMA_SERVICE_TOKEN:-}" && echo "PRISMA_SERVICE_TOKEN is set"
-bunx @prisma/cli@latest auth whoami
-bunx @prisma/cli@latest app deploy --json --no-interactive --prod --yes --env .env
+bunx @prisma/cli@latest auth whoami --json
+
+# 2. Production deployment example (requires explicit project scope or PRISMA_PROJECT_ID)
+bunx @prisma/cli@latest app deploy --json --no-interactive --prod --project <id-or-name> --env .env
 ```
 
 If `PRISMA_SERVICE_TOKEN` is set and non-empty, it is the active auth source and local OAuth workspace switching is unavailable for command execution. Unset `PRISMA_SERVICE_TOKEN` before using `auth workspace use` to change local OAuth workspace context.

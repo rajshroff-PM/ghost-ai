@@ -207,7 +207,7 @@ import 'dotenv/config'
 import { defineConfig, env } from 'prisma/config'
 
 export default defineConfig({
-  schema: 'prisma/schema.prisma',
+  schema: 'prisma/',
   migrations: {
     path: 'prisma/migrations',
     seed: 'tsx prisma/seed.ts',
@@ -237,7 +237,7 @@ import 'dotenv/config'
 
 See individual rule files for detailed command documentation:
 
-```
+```text
 references/init.md           - Project initialization
 references/generate.md       - Client generation
 references/dev.md            - Local development database

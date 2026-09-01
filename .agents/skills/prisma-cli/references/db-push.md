@@ -140,11 +140,17 @@ prisma db push --accept-data-loss
 
 ## Transition to Migrations
 
-When ready for production, switch to migrations:
+When ready for production, switch to migrations using a baselining workflow:
 
 ```bash
-# Create baseline migration from current schema
-prisma migrate dev --name init
+# 1. Generate the initial migration SQL from your Prisma schema
+mkdir -p prisma/migrations/0_init
+prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/migrations/0_init/migration.sql
+
+# 2. Apply it to the existing database using the appropriate migration mechanism or database client
+
+# 3. Mark the initial migration as applied
+prisma migrate resolve --applied 0_init
 ```
 
 Then use `migrate dev` for future changes.
