@@ -9,12 +9,89 @@ change.
 
 ## Current Goal
 
-- Pick the next feature unit from `context/feature-specs/`. The project dialogs
-  now need real data behind them: project persistence (Prisma) and the API
-  routes that `useProjectDialogs.submit` will call.
+- Build the project API routes on top of the new Prisma models so
+  `useProjectDialogs.submit` has something real to call.
 
 ## Completed
 
+- 03-auth build fix: `npm run build` was failing with `Module not found:
+  Can't resolve '@clerk/ui/themes'` from `lib/clerk-appearance.ts:1`. The
+  import path was **correct** — for the current Clerk SDK (`@clerk/nextjs` v7+)
+  prebuilt themes ship from `@clerk/ui/themes`; only `@clerk/themes` is the
+  Core-2/legacy location. The problem was purely the pinned version: the repo
+  had `@clerk/ui@^0.3.24`, an older package generation whose `exports` map has
+  no `./themes` entry. Upgraded to `@clerk/ui@^1.31.0`, which exports
+  `./themes` → `./dist/themes/index.js` and ships `dist/themes/dark.js`. **No
+  source change was needed** — `lib/clerk-appearance.ts` is untouched, and all
+  of its `variables` values still map to app CSS custom properties. The upgrade
+  is low-risk because `@clerk/ui` is imported in exactly one place in the repo,
+  and React 19.2.8 satisfies 1.31.0's `~19.2.3` peer range.
+  Also fixed while verifying: `NEXT_PUBLIC_CLERK_SIGN_IN_URL` and
+  `NEXT_PUBLIC_CLERK_SIGN_UP_URL` were never set locally, so `proxy.ts` built
+  `"undefined(.*)"` route matchers, `/sign-in` was not treated as public, and
+  `auth.protect()` bounced every visitor to Clerk's **hosted** account portal
+  (`prepared-squid-8116.accounts.dev`) instead of rendering the in-app page.
+  Both are now set in `.env.local` (gitignored) to `/sign-in` and `/sign-up`.
+  Anyone cloning this repo needs those two vars locally or auth appears broken.
+  Verified: `npx tsc --noEmit` clean (zero errors repo-wide, first time),
+  `npm run build` passes (5 routes), and in-browser at `localhost:3000/sign-in`
+  the Clerk form renders on the dark theme with `Continue` computing to
+  `rgb(34, 211, 238)` — exactly `--accent-primary` `#22d3ee`, not Clerk's
+  default purple — body background `rgb(7, 8, 10)`, body font
+  `Geist, "Geist Fallback"`, no console errors, and at 1440x900 the full 50/50
+  `AuthLayout` renders (teal-tinted left panel with logo, heading, icon-badged
+  feature list, copyright footer).
+  **Caution for whoever picks this up next**: the spun-off background task
+  `task_4d50e363` ("Fix broken @clerk/ui/themes import breaking build") was
+  started separately in another worktree and targets this exact problem. It may
+  reach a different conclusion — e.g. installing `@clerk/themes` and rewriting
+  the import, rather than upgrading `@clerk/ui`. Diff that worktree against
+  this fix before merging; do not apply both.
+
+- 05-prisma: data models, client singleton, and first migration, exactly per
+  the spec. Schema is now a **multi-file schema**: `prisma7.config.ts` points
+  `schema` at the `prisma/` directory, `prisma/schema.prisma` keeps only the
+  `generator` + `datasource` blocks, and `prisma/models/project.prisma` holds
+  the models. `Project` has `ownerId` (Clerk user ID — no local user table),
+  `name`, optional `description`, a `ProjectStatus` enum (`DRAFT` / `ARCHIVED`,
+  defaulting to `DRAFT`), `canvasJsonPath` for the future canvas blob,
+  `createdAt` / `updatedAt`, and `@@index` on `ownerId` and on `createdAt`.
+  `ProjectCollaborator` has a `project` relation with `onDelete: Cascade`, a
+  collaborator `email`, `createdAt`, `@@unique([projectId, email])`, and
+  `@@index` on `email` and on `[projectId, createdAt]`. No extra fields beyond
+  what Prisma requires (ids and the back-relation) — notably **no `slug`**,
+  which the earlier ad-hoc schema had and `lib/projects.ts`'s mock still
+  carries. `lib/prisma.ts` is one cached singleton that branches on
+  `DATABASE_URL`: a `prisma+postgres://` URL uses
+  `new PrismaClient({ accelerateUrl }).$extends(withAccelerate())`, anything
+  else uses `new PrismaClient({ adapter: new PrismaPg(...) })`; the instance is
+  cached on `globalThis` outside production so hot reloads do not open a new
+  pool per edit. Required installing `@prisma/extension-accelerate` (the spec's
+  "already installed" list omitted it but the Accelerate branch needs it).
+  Migration: the DB was reset with explicit user consent and the earlier
+  ad-hoc `20260901042846_init` was deleted, so history is a single clean
+  `prisma/migrations/20260901050641_init/` whose SQL creates the enum, both
+  tables, all four indexes, the unique constraint, and the cascading FK.
+  Client regenerated to `app/generated/prisma`. Verified: `prisma validate`
+  passes, the migration applied cleanly, `prisma db seed` inserted 3 projects
+  with 3 collaborators, `scripts/verify-prisma.ts` printed
+  `✅ Connected (3 project row(s) found)`, `npx eslint lib/prisma.ts
+  prisma/seed.ts scripts/verify-prisma.ts` is clean, and `npx tsc --noEmit`
+  reports no error in any file this unit touched. **`npm run build` does NOT
+  pass** — blocked by a pre-existing unrelated failure, see Open Questions.
+- prisma-postgres-setup: connected the project to Prisma Postgres. Linked the
+  existing `db_cmthcu6pq02z8zpd6r0a9cgn0` database via
+  `prisma postgres link --api-key ... --database ...`, which writes
+  `DATABASE_URL` into `.env` (gitignored by the existing `.env*` rule). The
+  generated client output at `app/generated/prisma` is likewise gitignored.
+  `prisma/seed.ts` is wired through `prisma7.config.ts` as
+  `migrations.seed: "tsx prisma/seed.ts"` (not `package.json#prisma.seed`), and
+  `scripts/verify-prisma.ts` does a read-only `project.count()` as a connection
+  smoke test. All other packages (`prisma`, `@prisma/client`,
+  `@prisma/adapter-pg`, `pg`, `dotenv`, `tsx`, `@types/pg`) were already in
+  `package.json`. Note: this repo's config file is named `prisma7.config.ts`,
+  not `prisma.config.ts`; the CLI auto-detects it. The models and migration
+  originally created here were superseded by 05-prisma above.
 - 04-project-dialogs: editor home + project dialogs, UI only (no API calls, no
   persistence). `components/editor/editor-home.tsx` renders the centered
   `Create a project or open an existing one` heading, its description, and a
@@ -127,18 +204,40 @@ change.
 
 ## Next Up
 
-- Project persistence: the Prisma `Project` / `ProjectCollaborator` models and
-  the API routes behind them, replacing `lib/projects.ts`'s mock lists and
-  filling in `useProjectDialogs.submit`. Opening a project from the sidebar is
-  also still unbuilt — list items are deliberately non-interactive text until a
+- Project API routes: the `Project` / `ProjectCollaborator` models and
+  `lib/prisma.ts` now exist (05-prisma), so the remaining work is the route
+  handlers on top of them, replacing `lib/projects.ts`'s mock lists and filling
+  in `useProjectDialogs.submit`. Opening a project from the sidebar is also
+  still unbuilt — list items are deliberately non-interactive text until a
   project workspace route exists.
 
 ## Open Questions
 
-- None.
+- Does the `Project` model need a `slug`? `05-prisma.md` does not list one and
+  says not to add extra fields, so it was omitted — but `lib/slug.ts`,
+  `lib/projects.ts`'s mock `Project`, and the create-project dialog's live slug
+  preview all assume one exists. Resolve this in the API-routes spec before
+  wiring the dialogs to real data: either add `slug` (unique, per owner) to the
+  model or drop it from the UI.
 
 ## Architecture Decisions
 
+- The Prisma schema is a multi-file schema: `prisma7.config.ts` sets
+  `schema: "prisma/"`, so every `.prisma` file under `prisma/` is loaded as one
+  schema. `prisma/schema.prisma` holds only `generator` + `datasource`; models
+  live in `prisma/models/*.prisma`, one file per domain area. Add new models as
+  new files there rather than growing `schema.prisma`.
+- Collaborators are identified by email, not by Clerk user ID, because an
+  invite can be issued before that person has ever signed in. `Project.ownerId`
+  is a Clerk user ID because an owner necessarily exists. Neither side has a
+  local `User` table — Clerk stays the identity source of truth, per
+  `architecture.md`.
+- `lib/prisma.ts` branches on the `DATABASE_URL` scheme rather than on an
+  explicit env flag, so the same code works against a direct Prisma Postgres
+  TCP URL and an Accelerate (`prisma+postgres://`) URL without a config change
+  per environment. Accelerate URLs must never be passed to `PrismaPg` — driver
+  adapters only accept direct connection strings — which is exactly what the
+  branch enforces.
 - shadcn/ui's semantic CSS variables (`--background`, `--primary`, `--card`,
   `--border`, `--input`, `--ring`, etc.) are kept as-is because
   `components/ui/*` reference them directly and are protected foundation
@@ -208,6 +307,16 @@ change.
   text for keyboard and screen-reader users.
 
 ## Session Notes
+
+- Clerk prebuilt themes come from `@clerk/ui/themes` on the current SDK, not
+  `@clerk/themes` (that is the Core-2 location). If a `dark`/`shadcn` theme
+  import ever fails to resolve, check the installed `@clerk/ui` **version**
+  before changing the import path — 0.3.x has no `themes` export at all.
+- `.claude/launch.json` now carries `runtimeExecutable`/`runtimeArgs` so the
+  dev server can be started directly; it previously only had a `url`, which
+  meant it could attach to an already-running server but never launch one.
+  Next.js 16 refuses to start a second `next dev` for the same directory, so
+  stop any existing one first.
 
 - `components.json` uses the `radix-nova` style/preset (Lucide icons, Geist
   fonts) to match the existing font setup in `app/layout.tsx`.

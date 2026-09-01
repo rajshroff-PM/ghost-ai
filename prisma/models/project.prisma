@@ -1,0 +1,37 @@
+enum ProjectStatus {
+  DRAFT
+  ARCHIVED
+}
+
+/// A system design project. `ownerId` is the Clerk user ID of the owner —
+/// there is no local user table, Clerk is the identity source of truth.
+model Project {
+  id             String        @id @default(cuid())
+  ownerId        String
+  name           String
+  description    String?
+  status         ProjectStatus @default(DRAFT)
+  canvasJsonPath String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  collaborators ProjectCollaborator[]
+
+  @@index([ownerId])
+  @@index([createdAt])
+}
+
+/// A user invited onto a project. Collaborators are addressed by email because
+/// an invite can be sent before that person has a Clerk account.
+model ProjectCollaborator {
+  id        String   @id @default(cuid())
+  projectId String
+  email     String
+  createdAt DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, email])
+  @@index([email])
+  @@index([projectId, createdAt])
+}
