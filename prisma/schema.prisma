@@ -1,0 +1,15 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Models live in sibling `.prisma` files under this folder (see
+// `prisma/models/`). `prisma7.config.ts` points `schema` at the `prisma/`
+// directory, so every `.prisma` file in it is loaded as one schema.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
