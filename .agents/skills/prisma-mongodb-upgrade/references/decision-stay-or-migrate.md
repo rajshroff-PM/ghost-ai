@@ -8,7 +8,7 @@ CRITICAL
 
 ## Why It Matters
 
-MongoDB projects can upgrade to Prisma 7 (supported) or Prisma 8 (current). The Prisma 8 MongoDB setup path is fully available. The successor path for new architectures is Prisma Next. Advising a silent rewrite to SQL is a serious failure mode. The encouraged path is evaluating Prisma 8 or Prisma Next based on project needs.
+MongoDB projects can upgrade to Prisma 8. The Prisma 8 MongoDB setup path is fully available. Prisma Next is the Prisma 8 development path. Advising a silent rewrite to SQL is a serious failure mode. The encouraged path is evaluating Prisma 8 or Prisma Next based on project needs.
 
 ## The facts the decision rests on
 

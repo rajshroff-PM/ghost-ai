@@ -23,7 +23,7 @@ generator client {
 
 ## 2. Config Configuration
 
-Ensure you have `dotenv` installed as a development dependency (`npm install -D dotenv`).
+Ensure you have `dotenv` installed as a runtime dependency (`npm install dotenv`).
 
 In `prisma.config.ts`:
 

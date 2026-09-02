@@ -7,11 +7,10 @@ Execute multiple operations atomically.
 Array of operations executed in order:
 
 ```typescript
-const result = await prisma.$transaction(async (tx) => {
-  const user = await tx.user.create({ data: { email: 'alice@prisma.io' } })
-  const post = await tx.post.create({ data: { title: 'Hello', authorId: user.id } })
-  return { user, post }
-})
+const [user, post] = await prisma.$transaction([
+  prisma.user.create({ data: { email: 'alice@prisma.io' } }),
+  prisma.post.create({ data: { title: 'Hello', authorId: 1 } })
+])
 ```
 
 ### All or nothing

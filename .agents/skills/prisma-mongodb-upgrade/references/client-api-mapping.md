@@ -52,8 +52,8 @@ const session = mongoClient.startSession();
 try {
   await session.withTransaction(async (session) => {
     // pass { session } to every representative operation
-    await raw.users.insertOne({ name: 'Alice' }, { session });
-    await raw.posts.insertOne({ title: 'Hello', authorId: user._id }, { session });
+    await mongoClient.db().collection('users').insertOne({ name: 'Alice' }, { session });
+    await mongoClient.db().collection('posts').insertOne({ title: 'Hello', authorId: user._id }, { session });
   });
 } finally {
   await session.endSession();

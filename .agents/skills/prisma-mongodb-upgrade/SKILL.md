@@ -9,7 +9,7 @@ metadata:
 
 # Prisma MongoDB Upgrade Path
 
-MongoDB projects have a clear path forward in Prisma 8. While Prisma 7 supported MongoDB with limitations (at the time of v7.0.0), Prisma 8 is the current version and includes the Prisma 8 MongoDB setup path. The successor path for advanced features is Prisma Next, where MongoDB support is available. This skill frames the decision to upgrade to Prisma 8 or migrate to Prisma Next.
+MongoDB projects have a clear path forward in Prisma 8. Prisma 7 is unsupported for MongoDB. Prisma 8 is the supported path and includes the Prisma 8 MongoDB setup path. Prisma Next is the Prisma 8 development path. This skill frames the decision to upgrade to Prisma 8 or migrate to Prisma Next.
 
 **Never do either of these:**
 
@@ -23,9 +23,9 @@ MongoDB projects have a clear path forward in Prisma 8. While Prisma 7 supported
 | Version | MongoDB status |
 |---------|----------------|
 | Prisma ORM v6 | Fully supported; maintenance line |
-| Prisma ORM v7 | Supported |
-| Prisma ORM v8 | Current stable version; includes the Prisma 8 MongoDB setup path |
-| Prisma Next | Actively developed successor path |
+| Prisma ORM v7 | Unsupported |
+| Prisma ORM v8 | Supported path; includes the Prisma 8 MongoDB setup path |
+| Prisma Next | Prisma 8 development path |
 
 ## The decision, up front
 

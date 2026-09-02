@@ -145,7 +145,7 @@ When ready for production, switch to migrations using a baselining workflow:
 ```bash
 # 1. Generate the initial migration SQL from your Prisma schema
 mkdir -p prisma/migrations/0_init
-prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/migrations/0_init/migration.sql
+prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script > prisma/migrations/0_init/migration.sql
 
 # 2. Apply it to the existing database using the appropriate migration mechanism or database client
 

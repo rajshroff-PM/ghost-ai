@@ -60,6 +60,6 @@ To apply migrations in production, run:
 ## Exit Codes
 
 - `0`: Success (database is up to date, no pending migrations)
-- `1`: Error (unapplied migrations, divergent migration history, a missing `_prisma_migrations` table, or failed migrations)
+- `1`: Error (database connection errors, unapplied migrations, divergent migration history, a missing `_prisma_migrations` table, or failed migrations)
 
-To check for pending migrations programmatically in earlier versions, you might need to parse the output, but in Prisma CLI 7.10.0, exit code 1 natively indicates pending, divergent, or failed states.
+To check for pending migrations programmatically in earlier versions, you might need to parse the output, but in Prisma CLI 7.10.0, exit code 1 natively indicates database connection errors, pending, divergent, or failed states. The command output distinguishes connection errors from unapplied, divergent, missing-table, or failed migration states.
