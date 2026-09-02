@@ -92,8 +92,8 @@ Prisma Client must be installed and generated for any database.
 
 1. Install Prisma CLI and Prisma Client:
    ```bash
-   npm install prisma --save-dev
-   npm install @prisma/client dotenv
+   npm install prisma@^7.6.0 --save-dev
+   npm install @prisma/client@^7.6.0 dotenv
    ```
 
 1. Add a generator block (`prisma-client` requires an explicit output path):
@@ -126,7 +126,7 @@ Prisma Client must be installed and generated for any database.
 
 Install provider dependencies:
 ```bash
-npm install @prisma/adapter-pg pg
+npm install @prisma/adapter-pg@^7.6.0 pg
 ```
 
 ```prisma
